@@ -1,6 +1,6 @@
 import streamlit as st
 import pickle
-
+import helper
 # Full forms and descriptions of each point
 descriptions = {
     'Name': "Full name of the patient",
@@ -29,11 +29,7 @@ descriptions = {
 }
 
 # Function to calculate BMI
-def calculate_bmi(weight, height):
-    if height > 0:
-        return weight / ((height / 100) ** 2)
-    else:
-        return 0
+
 
 # Setting the title
 st.markdown("<h1 style='font-size: 36px;'>Medical Information </h1>", unsafe_allow_html=True)
@@ -67,7 +63,7 @@ with st.form(key='medical_info_form'):
     my_data['PLT'] = st.slider("**Platelet Count (PLT) (cells/uL):**", min_value=150000.0, max_value=450000.0, help=descriptions['PLT'])
     
     # Automatically calculate BMI
-    my_data['bmi'] = calculate_bmi(my_data['Weight'], my_data['Length'])
+    my_data['BMI'] = helper.calculate_bmi(my_data['Weight'], my_data['Length'])
     # st.write(f"**Body Mass Index (BMI):** {bmi_value:.2f} kg/m²")
 
     # Submit button

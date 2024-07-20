@@ -37,3 +37,10 @@ def preprocess(data):
     return preprocessor.fit_transform(data)
 
 
+
+# BMI Calculator
+def calculate_bmi(weight, height):
+    if height > 0:
+        return weight / ((height / 100) ** 2)
+    else:
+        return 0
