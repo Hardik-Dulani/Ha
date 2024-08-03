@@ -5,8 +5,10 @@ import helper
 descriptions = {
     'Name': "Full name of the patient",
     'Sex': "Sex of the patient",
-    'Typical Chest Pain': "Typical chest pain associated with heart conditions (0: No, 1: Yes)",
-    'Atypical': "Atypical chest pain that is not typical for heart conditions (0: No, 1: Yes)",
+    'chest_pain': """ 
+    - **Typical chest pain** feels like pressure or squeezing in the center of the chest, often worsening with activity or stress. It might spread to the neck, jaw, arms, or back and can be relieved by rest or medication. \n 
+    - **Atypical chest pain**, on the other hand, can be sharp, stabbing, or burning, and can occur anywhere in the chest. It's not always related to physical exertion and may be triggered by movements, breathing, or eating. Atypical pain can be relieved by antacids or changing positions and is less likely to spread to other parts of the body.""",
+    
     'EF-TTE': "Ejection Fraction from Transthoracic Echocardiogram (% range: 0-100)",
     'Age': "Age of the patient (years)",
     'Region RWMA': "Regional Wall Motion Abnormality (0: No, 1: Yes)",
@@ -33,7 +35,7 @@ descriptions = {
 
 # Setting the title
 st.markdown("<h1 style='font-size: 36px;'>Medical Information </h1>", unsafe_allow_html=True)
-st.write("We're collecting basic information needed for our model to work. If you have this information, please provide it. If not, simply press 'Don't Know' and we will use the most probable input based on our training data to give predictions.")
+st.write("We're collecting basic information needed for our model to work. If you have this information, please provide it. If not, simply select 'NA' or leave blank for numerical inputs and we will use the most probable input based on our training data to give predictions.")
 
 # Creating the form
 my_data = {}
@@ -41,31 +43,35 @@ my_data = {}
 with st.form(key='medical_info_form'):
     name = st.text_input("**Name:**", help=descriptions['Name'])
     my_data['Sex']=st.selectbox("**Sex:**", ["Male","Female","Other"], help=descriptions['Sex'])
-    my_data['Age'] = st.number_input("**Age (years):**", min_value=0, max_value=120, help=descriptions['Age'])
-    my_data['Weight'] = st.number_input("**Weight (kg):**", min_value=10.0, max_value=200.0, help=descriptions['Weight'])
-    my_data['Length'] = st.number_input("**Height (Length) (cm):**", min_value=50.0, max_value=250.0, help=descriptions['Length'])
-    my_data['Typical_chest_pain'] = st.selectbox("**Typical Chest Pain:**", ["No", "Yes"], help=descriptions['Typical Chest Pain'])
-    my_data['Atypical'] = st.selectbox("**Atypical Chest Pain:**", ["No", "Yes"], help=descriptions['Atypical'])
-    my_data['Region_rwma'] = st.selectbox("**Region RWMA:**", ["No", "Yes"], help=descriptions['Region RWMA'])
-    my_data['HTN'] = st.selectbox("**Hypertension (HTN):**", ["No", "Yes"], help=descriptions['HTN'])
-    my_data['Nonanginal'] = st.selectbox("**Nonanginal Chest Pain:**", ["No", "Yes"], help=descriptions['Nonanginal'])
-    my_data['DM'] = st.selectbox("**Diabetes Mellitus (DM):**", ["No", "Yes"], help=descriptions['DM'])
-    my_data['Tinversion'] = st.selectbox("**T wave Inversion (Tinversion):**", ["No", "Yes"], help=descriptions['Tinversion'])
-    my_data['Dyspnea'] = st.selectbox("**Dyspnea (Shortness of Breath):**", ["No", "Yes"], help=descriptions['Dyspnea'])
-    my_data['EF-TTE'] = st.slider("**EF-TTE (%):**", min_value=0, max_value=100, help=descriptions['EF-TTE'])
-    my_data['BP'] = st.number_input("**Blood Pressure (BP) (mm Hg):**", min_value=80, max_value=200, help=descriptions['BP'])
-    my_data['ESR'] = st.slider("**Erythrocyte Sedimentation Rate (ESR) (mm/hr):**", min_value=0, max_value=100, help=descriptions['ESR'])
-    my_data['FBS'] = st.slider("**Fasting Blood Sugar (FBS) (mg/dL):**", min_value=70, max_value=130, help=descriptions['FBS'])
-    my_data['K'] = st.slider("**Potassium Level (K) (mEq/L):**", min_value=3.5, max_value=5.5, step=0.1, help=descriptions['K'])
-    my_data['TG'] = st.slider("**Triglycerides (TG) (mg/dL):**", min_value=0, max_value=150, help=descriptions['TG'])
-    my_data['Na'] = st.slider("**Sodium Level (Na) (mEq/L):**", min_value=135.0, max_value=145.0, step=0.1, help=descriptions['Na'])
-    my_data['Lymph'] = st.slider("**Lymphocyte Count (cells/uL):**", min_value=1000.0, max_value=4000.0, help=descriptions['Lymph'])
-    my_data['PLT'] = st.slider("**Platelet Count (PLT) (cells/uL):**", min_value=150000.0, max_value=450000.0, help=descriptions['PLT'])
+    my_data['Age'] = st.number_input("**Age (years):**", min_value=12, max_value=120, help=descriptions['Age'])
+    my_data['Weight'] = st.number_input("**Weight (kg):**", min_value=15.0, max_value=250.0, step=0.5 ,help=descriptions['Weight'])
+    my_data['Length'] = st.number_input("**Height (Length) (cm):**", min_value=50.0, max_value=250.0, step = 0.5, help=descriptions['Length'])
+    chest_pain = st.selectbox("**Chest Pain:**", ["Typical", "Atypical","None"], help=descriptions["chest_pain"])
+    smoker = st.selectbox("**Smoking**", ["Never", "Currently active","in the past"], help=descriptions["chest_pain"])
+    # my_data['Atypical'] = st.selectbox("**Atypical Chest Pain:**", ["NA","No", "Yes"], help=descriptions['Atypical'])
+    my_data['Region_rwma'] = st.selectbox("**Region RWMA:**", ["NA","No", "Yes"], help=descriptions['Region RWMA'])
+    my_data['HTN'] = st.selectbox("**Hypertension (HTN):**", ["NA","No", "Yes"], help=descriptions['HTN'])
+    my_data['Nonanginal'] = st.selectbox("**Nonanginal Chest Pain:**", ["NA","No", "Yes"], help=descriptions['Nonanginal'])
+    my_data['DM'] = st.selectbox("**Diabetes Mellitus (DM):**", ["NA","No", "Yes"], help=descriptions['DM'])
+    my_data['Tinversion'] = st.selectbox("**T wave Inversion (Tinversion):**", ["NA","No", "Yes"], help=descriptions['Tinversion'])
+    my_data['Dyspnea'] = st.selectbox("**Dyspnea (Shortness of Breath):**", ["NA","No", "Yes"], help=descriptions['Dyspnea'])
+    my_data['EF-TTE'] = st.text_input("**EF-TTE (%):**", help=descriptions['EF-TTE'])
+    my_data['BP'] = st.text_input("**Blood Pressure (BP) (mm Hg):**",  help=descriptions['BP'])
+    my_data['ESR'] = st.text_input("**Erythrocyte Sedimentation Rate (ESR) (mm/hr):**", help=descriptions['ESR'])
+    my_data['FBS'] = st.text_input("**Fasting Blood Sugar (FBS) (mg/dL):**", help=descriptions['FBS'])
+    my_data['K'] = st.text_input("**Potassium Level (K) (mEq/L):**",  help=descriptions['K'])
+    my_data['TG'] = st.text_input("**Triglycerides (TG) (mg/dL):**", help=descriptions['TG'])
+    my_data['Na'] = st.text_input("**Sodium Level (Na) (mEq/L):**",  help=descriptions['Na'])
+    my_data['Lymph'] = st.text_input("**Lymphocyte Count (cells/uL):**",  help=descriptions['Lymph'])
+    my_data['PLT'] = st.text_input("**Platelet Count (PLT) (cells/uL):**",  help=descriptions['PLT'])
     
     # Automatically calculate BMI
     my_data['BMI'] = helper.calculate_bmi(my_data['Weight'], my_data['Length'])
     # st.write(f"**Body Mass Index (BMI):** {bmi_value:.2f} kg/m²")
-
+    my_data['Typical Chest Pain'] =  int(chest_pain == 'Typical')
+    my_data['Atypical'] =  int(chest_pain == 'Atypical')
+    my_data['Current Smoker'] = int(smoker == 'Currently active')
+    my_data['EX-Smoker'] = int(smoker == 'in the past')
     # Submit button
     submit_button = st.form_submit_button(label='Submit')
 
@@ -74,9 +80,14 @@ if submit_button:
     file_path = 'defaults.pkl'
 
 # Load the pickle file
+    data = {}
     with open(file_path, 'rb') as file:
         defaults = pickle.load(file)
     for i,j in defaults.items():
-        if i not in my_data:
-            my_data[i] = j
-    st.dataframe(my_data)
+        if i not in my_data or my_data[i] == '' or my_data[i] == None or  my_data[i] == 'NA':
+            data[i] = j
+        else:
+            data[i] = my_data[i]
+
+        
+    st.dataframe(data)
