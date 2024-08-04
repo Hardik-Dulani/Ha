@@ -47,7 +47,7 @@ def main():
 
     with st.form(key='medical_info_form'):
         name = st.text_input("**Name:**", help=descriptions['Name'])
-        my_data['Sex']=st.selectbox("**Sex:**", ["Male","Female","Other"], help=descriptions['Sex'])
+        my_data['Sex'] =st.selectbox("**Sex:**", ["Male","Female"], help=descriptions['Sex'])
         my_data['Age'] = st.number_input("**Age (years):**", min_value=12, max_value=120, help=descriptions['Age'])
         my_data['Weight'] = st.number_input("**Weight (kg):**", min_value=15.0, max_value=250.0, step=0.5 ,help=descriptions['Weight'])
         my_data['Length'] = st.number_input("**Height (Length) (cm):**", min_value=50.0, max_value=250.0, step = 0.5, help=descriptions['Length'])
@@ -71,12 +71,17 @@ def main():
         my_data['PLT'] = st.text_input("**Platelet Count (PLT) (cells/uL):**",  help=descriptions['PLT'])
         
         # Automatically calculate BMI
-        my_data['BMI'] = helper.calculate_bmi(my_data['Weight'], my_data['Length'])
+        BMI = helper.calculate_bmi(my_data['Weight'], my_data['Length'])
+        my_data['Obesity'] = int(BMI>25)
+        my_data['BMI'] = BMI
+        
         # st.write(f"**Body Mass Index (BMI):** {bmi_value:.2f} kg/m²")
         my_data['Typical Chest Pain'] =  int(chest_pain == 'Typical')
         my_data['Atypical'] =  int(chest_pain == 'Atypical')
         my_data['Current Smoker'] = int(smoker == 'Currently active')
         my_data['EX-Smoker'] = int(smoker == 'in the past')
+        
+
         # Submit button
         submit_button = st.form_submit_button(label='Submit')
 
@@ -97,10 +102,14 @@ def main():
                     data[i] = int(my_data[i][0])
                 else:
                     data[i] = my_data[i]
-
-        data = pd.DataFrame(data)
+       
+        
+        data = pd.DataFrame(data,index = [0])
+        st.dataframe(data)
         
 
         st.write(helper.predict(data))
+        st.dataframe(helper.preprocess(data))
+
 if __name__ == '__main__':
     main()
