@@ -58,10 +58,6 @@ ord_cols = ['Function Class', "Region RWMA", "VHD"]
 import numpy as np
 import pandas as pd
 
-print("NumPy version:", np.__version__)
-print("Pandas version:", pd.__version__)
-
-
 
 # PREDICTION
 def predict(data):
