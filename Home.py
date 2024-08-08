@@ -45,7 +45,7 @@ def main():
 
     # st.markdown("<h1 style='font-size: 36px;'>Medical Information </h1>", unsafe_allow_html=True)
     st.write("To streamline the process, we are collecting only the essential information needed for our model to operate effectively, as gathering all 55 features might be too cumbersome for users. If you can provide the required information, please do so. If some data is unavailable, you can select 'NA' or leave numerical inputs blank. We will use average values based on our training data to handle missing information and ensure accurate predictions.")
-
+    st.write('**We do not save your data, to ensure 100% privacy**')
     # Creating the form
 
     with st.form(key='medical_info_form'):
