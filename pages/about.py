@@ -1,17 +1,17 @@
 import streamlit as st
 
 # Title of your Streamlit app
-st.title("Coronary Artery Disease Prediction Project")
+st.header("Coronary Artery Disease Prediction")
 
 # Introduction section
-st.header("Introduction")
+st.subheader("Introduction")
 st.write("""
 Our goal was to develop a model for predicting coronary artery disease (CAD) and to compare the performance of various machine learning algorithms. Additionally, we aimed to analyze the explainability of the chosen machine learning algorithm.
 """)
 
 # Dataset Description section
-st.header("Dataset Description")
-st.subheader("Z-Alizadeh Sani Dataset")
+st.subheader("Dataset Description")
+st.write("**Z-Alizadeh Sani Dataset**")
 st.markdown("""
 The **Z-Alizadeh Sani dataset** is available on the [UCI Machine Learning repository](https://doi.org/10.24432/C5Q31T). It comprises 303 medical records from patients who visited Shaheed Rajaei hospital in Iran due to chest pain. Each record contains 55 features, categorized into:
 
@@ -20,7 +20,7 @@ The **Z-Alizadeh Sani dataset** is available on the [UCI Machine Learning reposi
 3. **ECG (Electrocardiogram)**
 4. **Echocardiography Features**
 
-### Class Distribution
+##### Class Distribution
 - **CAD Class**: 216 instances (71.29%)
 - **Normal Class**: 87 instances (28.71%)
 
@@ -28,13 +28,13 @@ A sample is classified as CAD if the stenosis of coronary arteries lumen reaches
 """)
 
 # Exploratory Data Analysis section
-st.header("Exploratory Data Analysis")
+st.subheader("Exploratory Data Analysis")
 st.write("""
 In this part, we analyzed the data distribution and examined the basic statistical properties of the data. This included understanding the types of variables, checking for missing values, and visualizing the distribution of various features and the target variable. This step helped us identify trends, anomalies, patterns, and relationships within the data.
 """)
 
 # Predictive Analysis section
-st.header("Predictive Analysis")
+st.subheader("Predictive Analysis")
 st.write("""
 We processed the data by splitting it into training and test sets, and oversampled the data using SMOTENC. We then developed predictive models with hyperparameter tuning using Optuna.
 
@@ -44,7 +44,7 @@ CatBoost, Ensemble3, XGBoost, and LightGBM achieved 100% recall, meaning all CAD
 """)
 
 # Explainable AI using SHAP section
-st.header("Explainable AI Using SHAP")
+st.subheader("Explainable AI Using SHAP")
 st.write("""
 We interpreted the CatBoost model using SHAP values. By plotting Feature Importance, Summary, and Dependence plots, we gained insights into the global interpretability of the model.
 
