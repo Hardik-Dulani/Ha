@@ -124,10 +124,10 @@ def main():
         # Clear the progress bar once it's done
         progress_placeholder.empty()
         if is_at_risk:
-            st.error("You are at risk of coronary heart disease (CHD).")
+            st.error(f"Dear {name}, You are at risk of coronary heart disease (CHD).")
             st.info("We recommend that you visit a doctor for a thorough evaluation and appropriate guidance.")
         else:
-            st.success("You are not currently at risk of coronary heart disease (CHD).")
+            st.success("Dear {name}, You are not currently at risk of coronary heart disease (CHD).")
             st.info("Maintain a healthy lifestyle and regular check-ups to stay healthy.")
 
         # st.dataframe(helper.preprocess(data))
